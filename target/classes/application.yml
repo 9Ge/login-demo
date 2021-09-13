@@ -1,0 +1,18 @@
+#mysql
+spring:
+  datasource:
+    druid:
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.3.34:3306/enercomndeviced?useSSL=false&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Hongkong&allowMultiQueries=true
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*.xml # mapper映射文件
+
+#日志
+logging:
+  level:
+    com.* : debug
