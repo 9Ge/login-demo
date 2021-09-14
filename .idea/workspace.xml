@@ -32,19 +32,20 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.user.login.web" />
       <recent name="com.user.login.service" />
       <recent name="com.user.login.config" />
       <recent name="com.user.login.handler" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\WorkSpace\login-demo\src\main\resources" />
       <recent name="E:\WorkSpace\login-demo" />
       <recent name="E:\WorkSpace\login-demo\src\main\resources\mapper" />
-      <recent name="E:\WorkSpace\login-demo\src\main\resources" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -78,7 +79,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1631498953938</updated>
-      <workItem from="1631498957414" duration="22966000" />
+      <workItem from="1631498957414" duration="23564000" />
+      <workItem from="1631583525521" duration="6625000" />
     </task>
     <servers />
   </component>

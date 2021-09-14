@@ -3,8 +3,11 @@ package com.user.login.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.user.login.jwt.JwtTokenUtils;
 import com.user.login.user.model.User;
+import com.user.login.web.ResultMsg;
 import com.user.login.web.exception.LoginException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,9 +35,17 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
   public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
     this.authenticationManager = authenticationManager;
+    this.setMessageSource(messageSource());
     super.setFilterProcessesUrl("/auth/login");
   }
 
+  public MessageSource messageSource() {
+    ReloadableResourceBundleMessageSource messageSource
+            = new ReloadableResourceBundleMessageSource();
+    messageSource.setBasename("classpath:messages.properties");
+    messageSource.setDefaultEncoding("UTF-8");
+    return messageSource;
+  }
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request,
                                               HttpServletResponse response) throws AuthenticationException {
@@ -73,14 +84,32 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     String token = JwtTokenUtils.createToken(jwtUser.getUsername(), role);
-    response.setCharacterEncoding("UTF-8");
-    response.setContentType("application/json; charset=utf-8");
-    String tokenStr = JwtTokenUtils.TOKEN_PREFIX + token;
-    response.setHeader("token",tokenStr);
+    successfulAuthentication(response,JwtTokenUtils.TOKEN_PREFIX + token);
+  }
+
+
+  protected void successfulAuthentication(HttpServletResponse response,String tokenStr) throws IOException, ServletException {
+    ResultMsg resultMsg = new ResultMsg();
+    resultMsg.setResultCode(200);
+    resultMsg.setResultMessage("登陆成功");
+    resultMsg.setResultObject(tokenStr);
+    logResult(response,resultMsg);
   }
 
   @Override
   protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-    response.getWriter().write("authentication failed, reason: " + failed.getMessage());
+    ResultMsg resultMsg = new ResultMsg();
+    resultMsg.setResultCode(403);
+    resultMsg.setResultMessage("登陆失败");
+    resultMsg.setResultObject(failed.getMessage());
+    logResult(response,resultMsg);
+  }
+
+
+  public void logResult( HttpServletResponse response, ResultMsg resultMsg) throws IOException {
+    response.setCharacterEncoding("UTF-8");
+    response.setContentType("application/json; charset=utf-8");
+    ObjectMapper objectMapper  = new ObjectMapper();
+    response.getWriter().write(objectMapper.writeValueAsString(resultMsg));
   }
 }
